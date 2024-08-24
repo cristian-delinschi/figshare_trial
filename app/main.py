@@ -1,20 +1,11 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from .database import SessionLocal, engine
+from .database import engine, get_db
 from . import crud, models, schemas
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @app.post("/register/", response_model=schemas.AccountRegister)
@@ -39,12 +30,12 @@ def get_account(acc_id: int, db: Session = Depends(get_db)):
 
 
 @app.put("/accounts/{account_id}", response_model=schemas.AccountUpdate)
-def update_account(account_id: int, account: schemas.AccountUpdate, db: Session = Depends(get_db)):
+def update_account(acc_id: int, account: schemas.AccountUpdate, db: Session = Depends(get_db)):
     email_check = crud.get_account_by_email(db, email=account.email)
     if email_check:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    db_account = crud.update_account(db=db, account_id=account_id, account_update=account)
+    db_account = crud.update_account(db=db, acc_id=acc_id, account_update=account)
     if db_account is None:
         raise HTTPException(status_code=404, detail="Account not found")
 

@@ -29,8 +29,8 @@ def get_account_by_email(db: Session, email: str):
     return db.query(models.Account).filter(models.Account.email == email).first()
 
 
-def update_account(db: Session, account_id: int, account_update: schemas.AccountUpdate):
-    db_account = db.query(models.Account).filter(models.Account.id == account_id).first()
+def update_account(db: Session, acc_id: int, account_update: schemas.AccountUpdate):
+    db_account = db.query(models.Account).filter(models.Account.id == acc_id).first()
     if db_account:
         acc = account_update.dict(exclude_unset=True)
         del acc['id']
