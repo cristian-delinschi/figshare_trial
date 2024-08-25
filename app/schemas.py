@@ -3,35 +3,30 @@ from typing import Optional
 from datetime import datetime
 
 
-class AccountBase(BaseModel):
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class AccountRegister(BaseModel):
+    name: str
+    email: str
+    password: str
+
+
+class AccountUpdate(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
+    is_active: Optional[bool] = None
+
+
+class AccountResponse(BaseModel):
     id: int
     name: str
     email: str
-
-
-class AccountCreate(AccountBase):
-    id: int
-    password: str
+    is_active: bool
     created_date: datetime
-    is_active: bool
-
-
-class AccountUpdate(AccountBase):
-    id: int
-    password: str
-    is_active: bool
-
-
-class AccountResponse(AccountBase):
-    id: int
-    created_date: datetime
-    last_login_date: Optional[datetime] = None
-    is_active: bool
-
-    class Config:
-        orm_model = True
-
-
-class AccountRegister(AccountBase):
-    password: str
     hashed_password: str
+    last_login_date: Optional[datetime] = None
