@@ -35,11 +35,13 @@ def get_account_by_email(db: Session, email: str):
     return db.query(models.Account).filter(models.Account.email == email).first()
 
 
-def update_account(db: Session, email: str, account_update: schemas.AccountUpdate):
+def update_account(db: Session, email: str, account_update: schemas.AccountPartialUpdate):
     db_account = db.query(models.Account).filter(models.Account.email == email).first()
     if db_account:
         acc = account_update.dict(exclude_unset=True)
-        for key, value in acc.items():
+
+        request_body = {key: value for key, value in acc.items() if value is not None}
+        for key, value in request_body.items():
             setattr(db_account, key, value)
         db.commit()
         db.refresh(db_account)

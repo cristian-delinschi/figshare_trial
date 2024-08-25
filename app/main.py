@@ -58,7 +58,7 @@ def get_accounts(
     return crud.get_accounts(db)
 
 
-@app.get("/accounts/{id}/", response_model=schemas.AccountResponse)
+@app.get("/account/{id}/", response_model=schemas.AccountResponse)
 def get_account(
         acc_id: int, db: Session = Depends(get_db),
         current_account: dict = Depends(auth.get_current_account)
@@ -69,27 +69,49 @@ def get_account(
     return db_account
 
 
-@app.put("/accounts_update", response_model=schemas.AccountResponse)
-def update_account(
+@app.patch("/account_partial_update", response_model=schemas.AccountResponse)
+def update_partial_account(
         email: str = Form(..., description="Account email which account should be updated"),
         name: str = Form(None),
         password: str = Form(None),
-        is_active: bool = Form(None, ),
+        is_active: bool = Form(None),
         db: Session = Depends(get_db),
         current_account: dict = Depends(auth.get_current_account)
 ):
     if not crud.check_email(email):
         raise HTTPException(status_code=400, detail="Email is not valid")
 
-    account_update = schemas.AccountUpdate(name=name, email=email, password=password, is_active=is_active)
+    account_update = schemas.AccountPartialUpdate(name=name, email=email, password=password, is_active=is_active)
     db_account = crud.update_account(db=db, email=email, account_update=account_update)
+
     if db_account is None:
         raise HTTPException(status_code=404, detail="Account not found")
 
     return db_account
 
 
-@app.delete("/accounts_delete", response_model=schemas.AccountResponse)
+@app.put("/account_full_update", response_model=schemas.AccountResponse)
+def update_full_account(
+        email: str = Form(..., description="Account email which account should be updated"),
+        name: str = Form(...),
+        password: str = Form(...),
+        is_active: bool = Form(...),
+        db: Session = Depends(get_db),
+        current_account: dict = Depends(auth.get_current_account)
+):
+    if not crud.check_email(email):
+        raise HTTPException(status_code=400, detail="Email is not valid")
+
+    account_update = schemas.AccountFullUpdate(name=name, email=email, password=password, is_active=is_active)
+    db_account = crud.update_account(db=db, email=email, account_update=account_update)
+
+    if db_account is None:
+        raise HTTPException(status_code=404, detail="Account not found")
+
+    return db_account
+
+
+@app.delete("/account_delete", response_model=schemas.AccountResponse)
 def delete_account(
         email: str = Form(..., description="Account email which account should be deleted"),
         db: Session = Depends(get_db),

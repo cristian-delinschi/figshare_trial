@@ -14,8 +14,14 @@ class AccountRegister(BaseModel):
     password: str
 
 
-class AccountUpdate(BaseModel):
-    id: Optional[int] = None
+class AccountFullUpdate(BaseModel):
+    name: str
+    email: str
+    password: str
+    is_active: bool
+
+
+class AccountPartialUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None
     password: Optional[str] = None
@@ -28,5 +34,5 @@ class AccountResponse(BaseModel):
     email: str
     is_active: bool
     created_date: datetime
-    hashed_password: str
     last_login_date: Optional[datetime] = None
+    hashed_password: str
