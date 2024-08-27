@@ -5,10 +5,12 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from .database import engine, get_db
 from . import crud, models, schemas, auth
+from .git_auth import router as auth_app
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+app.include_router(auth_app)
 
 
 @app.post("/token", response_model=schemas.LoginResponse)
