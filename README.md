@@ -1,4 +1,4 @@
-# Simple Back-End CRUD App Manages “accounts”
+# Accounts App Manager
 
 
 ## Endpoints
