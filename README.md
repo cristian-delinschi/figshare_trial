@@ -43,6 +43,12 @@ alembic upgrade head
 uvicorn app.main:app --reload
 ```
 
+### Set ngrok for local Jenkins
+
+```sh
+ngrok http 8080
+```
+
 #### Run tests
 
 ```sh
