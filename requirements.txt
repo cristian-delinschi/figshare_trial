@@ -26,6 +26,8 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib-inline==0.1.6
 mdurl==0.1.2
+mysql-client==0.0.1
+ngrok==1.4.0
 orjson==3.10.5
 parso==0.8.3
 passlib==1.7.4
