@@ -2,7 +2,6 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from unittest.mock import patch
-
 from app import models, schemas, crud
 
 # Create a test SQLite database in memory

@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/7064b1d1-ec32-4f50-82aa-11bf2b61e42a
 - [x] Authorization and authentication with JWT (JSON Web Token)
 - [x] Protected Endpoints
 - [x] Email Validation
-- [x] Use of Hashed passwords
+- [x] Use of Hashed passwords,,,,
 - [x] Jenkins Job that builds the docker image when a GitHub commit happens on the main branch
 
 #### Technologies used
